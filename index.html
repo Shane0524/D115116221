@@ -26,6 +26,12 @@
       <button class="add-button" type="submit">新增</button>
     </form>
 
+    <nav class="filter-controls" aria-label="篩選待辦事項">
+      <button class="filter-button active" type="button" data-filter="all" aria-pressed="true">全部</button>
+      <button class="filter-button" type="button" data-filter="active" aria-pressed="false">未完成</button>
+      <button class="filter-button" type="button" data-filter="completed" aria-pressed="false">已完成</button>
+    </nav>
+
     <section class="list-section" aria-labelledby="list-title">
       <div class="section-heading">
         <h2 id="list-title">我的事項</h2>
@@ -33,7 +39,7 @@
       </div>
 
       <ul id="todo-list" class="todo-list" aria-live="polite"></ul>
-      <p id="empty-state" class="empty-state">還沒有任何待辦事項,新增一個吧!</p>
+      <p id="empty-state" class="empty-state">還沒有任何待辦事項，新增一個吧！</p>
     </section>
 
     <footer class="app-footer">
