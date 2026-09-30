@@ -6,8 +6,10 @@ const list = document.querySelector("#todo-list");
 const emptyState = document.querySelector("#empty-state");
 const remainingCount = document.querySelector("#remaining-count");
 const todoCount = document.querySelector("#todo-count");
+const filterButtons = document.querySelectorAll(".filter-button");
 
 let todos = loadTodos();
+let currentFilter = "all";
 
 // 從 localStorage 讀取資料，格式不正確時使用空清單。
 function loadTodos() {
@@ -33,7 +35,13 @@ function createId() {
 function render() {
   list.replaceChildren();
 
-  todos.forEach((todo) => {
+  const visibleTodos = todos.filter((todo) => {
+    if (currentFilter === "active") return !todo.completed;
+    if (currentFilter === "completed") return todo.completed;
+    return true;
+  });
+
+  visibleTodos.forEach((todo) => {
     const item = document.createElement("li");
     item.className = `todo-item${todo.completed ? " completed" : ""}`;
     item.dataset.id = todo.id;
@@ -61,8 +69,29 @@ function render() {
   const incompleteCount = todos.filter((todo) => !todo.completed).length;
   todoCount.textContent = todos.length;
   remainingCount.textContent = `未完成:${incompleteCount} 項`;
-  emptyState.hidden = todos.length > 0;
+  emptyState.hidden = visibleTodos.length > 0;
+
+  if (visibleTodos.length === 0) {
+    const emptyMessages = {
+      all: "還沒有任何待辦事項，新增一個吧！",
+      active: "目前沒有未完成的事項；已完成的項目只是被目前篩選條件隱藏，並未刪除。",
+      completed: "目前沒有已完成的事項；未完成的項目只是被目前篩選條件隱藏，並未刪除。"
+    };
+    emptyState.textContent = emptyMessages[currentFilter];
+  }
 }
+
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    currentFilter = button.dataset.filter;
+    filterButtons.forEach((filterButton) => {
+      const isActive = filterButton === button;
+      filterButton.classList.toggle("active", isActive);
+      filterButton.setAttribute("aria-pressed", String(isActive));
+    });
+    render();
+  });
+});
 
 // 新增一筆非空白的待辦事項。
 form.addEventListener("submit", (event) => {

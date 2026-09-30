@@ -70,7 +70,36 @@ h1 {
 .todo-form {
   display: flex;
   gap: 10px;
-  margin-bottom: 32px;
+  margin-bottom: 12px;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.filter-button {
+  padding: 7px 12px;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+
+.filter-button:hover {
+  color: var(--text);
+  background: var(--surface-soft);
+}
+
+.filter-button.active {
+  color: var(--accent-dark);
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  font-weight: 700;
 }
 
 .todo-input {
